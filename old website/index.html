@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <!-- Font Links -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+
+
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <style>
+        .full-page-header {
+            height: 100vh;
+            background:
+                linear-gradient(to bottom, rgb(24, 24, 24), transparent),
+
+
+                url('https://raw.githubusercontent.com/ochohan/portfolio/master/media/background-header-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+
+        .header-subtitle {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #fff;
+            color: #2193B0;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+        }
+
+
+
+        .work-box {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .work-box .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
+        }
+
+        .work-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 30px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .skill-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .skill-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+
+
+        /* Portfolio starts */
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay h4 {
+            margin-bottom: 10px;
+        }
+
+        .separator {
+            width: 50%;
+            margin: 10px 0;
+            border-color: #fff;
+        }
+
+        .project-description {
+            margin: 10px 0;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .portfolio-overlay .icon-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .portfolio-overlay a {
+            margin: 0 10px;
+            color: #fff;
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+
+        /* Portfolio ends */
+
+        .full-page-header .header-title,
+        .navbar .navbar-brand {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 500;
+            font-size: 3em;
+        }
+
+        .navbar .nav-link {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+        }
+
+        .full-page-header .header-subtitle {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 400;
+
+        }
+
+        .navbar .navbar-brand {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            color: white;
+        }
+
+
+
+        .text-blue {
+            color: #2C3E50;
+        }
+
+
+        /* Footer starts */
+
+        .footer-section {
+            background-color: #2C3E50;
+            padding: 20px 0;
+        }
+
+        .text-gray {
+            color: #BDC3C7;
+        }
+
+        .footer-section a:hover {
+            color: #E74C3C;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar with Hamburger Menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(24,24,24);">
+        <a class="navbar-brand text-white" href="#">OSAMA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item my-2">
+                    <a class="nav-link text-white" href="#about">About</a>
+                </li>
+                <li class="nav-item my-2">
+                    <a class="nav-link text-white" href="#work">Experience</a>
+                </li>
+                <li class="nav-item my-2">
+                    <a class="nav-link text-white" href="#skills">Skills</a>
+                </li>
+                <li class="nav-item my-2">
+                    <a class="nav-link text-white" href="#portfolio">Portfolio</a>
+                </li>
+
+                <li class="nav-item my-2">
+                    <a class="nav-link text-white" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Full-page Header -->
+    <header class="full-page-header">
+        <div class="header-content text-center">
+            <h1 class="header-title">Hi, this is Osama Chohan</h1>
+            <p class="header-subtitle"></p>
+            <div class="header-buttons">
+                <a href="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Osama Chohan - Resume.doc" class="btn btn-primary btn-lg">Resume</a>
+                <a href="#contact" class="btn btn-secondary btn-lg">Let's Talk</a>
+            </div>
+            <div class="header-social-icons mt-3">
+                <a href="https://www.linkedin.com/in/osamachohan" target="_blank">
+                    <i class="fab fa-linkedin fa-2x text-white mx-3"></i>
+                </a>
+                <a href="https://github.com/ochohan" target="_blank">
+                    <i class="fab fa-github fa-2x text-white mx-3"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Sections -->
+    <div class="container mt-5">
+        <!-- About Me Section -->
+        <section id="about" class="mt-5 py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Text Content -->
+                    <div class="col-lg-7">
+                        <h2 class="mb-4">About Me</h2>
+                        <p>As a dedicated <strong>Cloud and DevOps Engineer</strong> 💻, my expertise spans across platforms like
+                            Microsoft Azure, GCP, and AWS. My foundation in coding is solid, thanks to hands-on projects
+                            involving Node.js, Express JS, Flask, Firebase, and SQL. Right now, I'm diving deep into the world of React 🌐. I'm also pretty handy with infrastructure tools like Docker and Terraform, and I can script my way around with both Powershell and Bash 🛠️.</p>
+                        
+                        <p>Outside the world of ones and zeros, I'm often found engrossed in the latest Marvel movie 🎬 or laughing along with my favorite sitcoms 😂. Yes, I'm a huge Marvel and sitcom enthusiast! And while many in the tech world swear by their coffee, it's just not my cup of tea ☕️ (pun intended).</p>
+                        
+                        <p>Beyond the technical realm, I've dipped my toes into <strong>Freelance Corporate Training</strong> 🎓. I've had the privilege of collaborating with top-tier institutions like Knowledge Academy UK. Over the past two years, I've facilitated more than 20 courses, primarily focusing on cloud and security 🔒.</p>
+                        
+                        <p>As for credentials, I'm a <strong>Microsoft Certified Trainer</strong>, have a <strong>Cisco Certification</strong>, and am recognized as a <strong>GCP Associate Engineer</strong>. I've also earned my stripes with Azure Fundamentals and as an MS 365 Security Administrator 🏆.</p>
+                    </div>
+                    <!-- Image -->
+                    <div class="col-lg-5 text-center">
+                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/personal-photo.jpg" alt="Your Image" class="img-fluid rounded-circle shadow">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <hr>
+        <!-- Work Experience Section -->
+        <section id="work" class="mt-5">
+            <h2 class="text-center">Work Experience</h2>
+            <div class="row mt-4">
+                <!-- DP Computing -->
+                <div class="col-md-3 mb-4">
+                    <div class="work-box" data-toggle="modal" data-target="#dpComputingModal">
+                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/dp-computing-logo.jpg" alt="DP Computing" class="img-fluid">
+                        <div class="overlay">
+                            <h5>IT Consultant</h5>
+                            <p>June 2020 - March 2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARA Inc. -->
+                <div class="col-md-3 mb-4">
+                    <div class="work-box" data-toggle="modal" data-target="#caraModal">
+                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/cara-inc-logo.jpg" alt="CARA Inc." class="img-fluid">
+                        <div class="overlay">
+                            <h5>ICT Officer</h5>
+                            <p>March 2021 - Feb 2022</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jtwo Solutions -->
+                <div class="col-md-3 mb-4">
+                    <div class="work-box" data-toggle="modal" data-target="#jtwoModal">
+                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/j2-solution-logo.jpg" alt="Jtwo Solutions" class="img-fluid">
+                        <div class="overlay">
+                            <h5>Cloud Engineer</h5>
+                            <p>Feb 2022 - Oct 2022</p>
+                        </div>
+                    </div>
+                </div>
+
+<!--                 <!-- Kasna -->
+                <div class="col-md-3 mb-4">
+                    <div class="work-box" data-toggle="modal" data-target="#kasnaModal">
+                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Kasna" class="img-fluid">
+                        <div class="overlay">
+                            <h5>DevOps Engineer</h5>
+                            <p>Oct 2022 - Present</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+
+        <!-- Modals for Work Experience Details -->
+
+        <!-- DP Computing Modal -->
+        <div class="modal fade" id="dpComputingModal" tabindex="-1" role="dialog" aria-labelledby="dpComputingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dpComputingModalLabel">DP Computing - IT Consultant</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li>Consulted clients on tech needs: Advised clients on Windows Server, Azure, Microsoft 365 (SharePoint, Exchange), and Ubiquiti Networks.</li>
+                            <li>Administered systems: Managed Windows Server setup, Azure cloud resources, and Microsoft 365 services for clients.</li>
+                            <li>Troubleshooted issues: Diagnosed and resolved technical problems across the entire tech stack.</li>
+                            <li>Network optimization: Designed and implemented Ubiquiti Networks solutions for improved connectivity.</li>
+                            <li>Seamless collaboration: Configured SharePoint and Exchange for efficient communication and document management.</li>
+                            <li>Training and support: Provided client teams with guidance, enabling them to maintain and manage the tech stack effectively.</li>
+                        </ul>
+                        <h6>Skills:</h6>
+                        <div class="mt-2">
+                            <span class="badge badge-primary">Azure</span>
+                            <span class="badge badge-secondary">Microsoft 365</span>
+                            <span class="badge badge-success">Azure AD</span>
+                            <span class="badge badge-danger">PowerShell</span>
+                            <span class="badge badge-warning">Ubiquiti</span>
+                            <span class="badge badge-info">Networking</span>
+                            <span class="badge badge-dark">Security</span>
+                            <span class="badge badge-primary">Exchange</span>
+                            <span class="badge badge-secondary">SharePoint</span>
+                            <span class="badge badge-success">Windows Server</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- CARA Inc. Modal -->
+        <div class="modal fade" id="caraModal" tabindex="-1" role="dialog" aria-labelledby="caraModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="caraModalLabel">CARA Inc. - ICT Officer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Role & Responsibilities</h6>
+                        <ul>
+                            <li>Carrying out existing strategies for data backup, data security, virus prevention.</li>
+                            <li>Collaborating in regular review of the cloud (Azure) environment to ensure it meets current best practices and emerging business needs management.</li>
+                            <li>Administering the entire infrastructure of an enterprise including networking & security.</li>
+                            <li>Ensured that all server hardware, operating systems, software and procedures aligned with organizational standards and strategic business plan.</li>
+                        </ul>
+                        <h6>Skills:</h6>
+                        <div class="mt-2">
+                            <span class="badge badge-primary">Windows Server</span>
+                            <span class="badge badge-secondary">Microsoft 365</span>
+                            <span class="badge badge-success">SharePoint</span>
+                            <span class="badge badge-danger">Exchange</span>
+                            <span class="badge badge-warning">Cisco Meraki</span>
+                            <span class="badge badge-info">Meraki MDM</span>
+                            <span class="badge badge-dark">Avast Business</span>
+                            <span class="badge badge-primary">Azure</span>
+                            <span class="badge badge-secondary">PowerShell</span>
+                            <span class="badge badge-success">Vmware Esxi</span>
+                            <span class="badge badge-danger">Cisco VOIP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       <!-- Jtwo Solutions Modal -->
+       <div class="modal fade" id="jtwoModal" tabindex="-1" role="dialog" aria-labelledby="jtwoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jtwoModalLabel">Cloud Engineer - Jtwo Solutions Pty Ltd</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>Implementing automated lifecycle management rules on cloud resources resulting in 20% cost reduction.</li>
+                        <li>Orchestrated seamless on-premise to AWS migration.</li>
+                        <li>Managed VMs, SQL Servers, Azure Blob Storage across clouds.</li>
+                        <li>Created efficient PowerShell scripts for infrastructure management.</li>
+                        <li>Optimized Azure and AWS resource scaling based on demand.</li>
+                        <li>Empowered clients through effective knowledge transfer.</li>
+                        <li>Enhanced K8s clusters and CI/CD pipelines for reliability.</li>
+                        <li>Deployed consistent environments using Terraform.</li>
+                        <li>Ensured high availability of AWS and Azure services.</li>
+                        <li>Streamlined SCCM software deployment and systems.</li>
+                        <li>Ensured efficient Exchange, Azure AD, and Windows Server management.</li>
+                    </ul>
+                    <div class="mt-4">
+                        <span class="badge badge-primary">Scripting</span>
+                        <span class="badge badge-secondary">DevOps</span>
+                        <span class="badge badge-success">Amazon Web Services (AWS)</span>
+                        <span class="badge badge-danger">Python (Programming Language)</span>
+                        <span class="badge badge-warning">Microsoft Azure</span>
+                        <span class="badge badge-info">Windows Server</span>
+                        <span class="badge badge-dark">Linux</span>
+                        <span class="badge badge-secondary">SCCM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+        
+
+        <!-- Kasna Modal -->
+        <div class="modal fade" id="kasnaModal" tabindex="-1" role="dialog" aria-labelledby="kasnaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="kasnaModalLabel">Kasna - Cloud Engineer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Project - AusPost Data Migration - Nov 2022 - July 2023</strong>
+                        <ul>
+                            <li>As a Cloud Engineer, I facilitated data migration from a legacy system to the current one, deploying containerized workloads on Cloud Run.</li>
+                            <li>I ensured GCP Infrastructure deployment followed best practices, leveraging Terraform for efficient management.</li>
+                            <li>Implemented automated CI/CD pipelines utilizing Cloud Build and Cloud Source Repository for various environments (development, test, production).</li>
+                            <li>Utilized the dbt tool to transform core data into the required format for new cloud-based applications.</li>
+                        </ul>
+                        <strong>Project - Rclone Config Generator - Aug 2023 - Present</strong>
+                        <ul>
+                            <li>Developed an Express.js web server with integrated Google OAuth 2.0 for user authentication.</li>
+                            <li>Managed user sessions using express-session stored in Firestore.</li>
+                            <li>Enabled dynamic Google Drive creation via Google APIs with custom naming.</li>
+                            <li>Used Firebase Admin SDK for backend operations and Firestore integration.</li>
+                            <li>Served static content with Express.js and managed environment configurations.</li>
+                            <li>Implemented error handling, logging, and a secure logout route.</li>
+                        </ul>
+                        <h6>Skills:</h6>
+                        <div class="mt-2">
+                            <span class="badge badge-primary">GCP</span>
+                            <span class="badge badge-secondary">Docker</span>
+                            <span class="badge badge-success">Cloud Run</span>
+                            <span class="badge badge-danger">Terraform</span>
+                            <span class="badge badge-warning">Firebase</span>
+                            <span class="badge badge-info">Google APIs</span>
+                            <span class="badge badge-dark">Firestore</span>
+                            <span class="badge badge-primary">OAuth</span>
+                            <span class="badge badge-secondary">Cloud Build</span>
+                            <span class="badge badge-success">DevOps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mt-5">
+            <h2 class="text-center mb-4">Skills</h2>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-code skill-icon"></i>
+                    <label>Python</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-flask skill-icon"></i>
+                    <label>Flask</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fab fa-node skill-icon"></i>
+                    <label>Node JS</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fab fa-node-js skill-icon"></i>
+                    <label>Express JS</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-database skill-icon"></i>
+                    <label>SQL</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fab fa-react skill-icon"></i>
+                    <label>React</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fab fa-docker skill-icon"></i>
+                    <label>Docker</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-cubes skill-icon"></i>
+                    <label>Kubernetes</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-cloud skill-icon"></i>
+                    <label>GCP</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-cloud skill-icon"></i>
+                    <label>AWS</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-cloud skill-icon"></i>
+                    <label>Azure</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-code-branch skill-icon"></i>
+                    <label>Terraform</label>
+                </div>
+
+                <div class="skill-card">
+                    <i class="fas fa-server skill-icon"></i>
+                    <label>VMware</label>
+                </div>
+            </div>
+        </section>
+        <hr>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="mt-5 mb-5">
+            <h2 class="text-center mb-4">Portfolio</h2>
+
+            <div class="container">
+                <div class="row">
+                    <!-- Test Project Box-->
+                    <div class="col-md-4 mb-4">
+                        <div class="portfolio-item">
+                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
+                            <div class="portfolio-overlay">
+                                <h4>Tic-Tac-Toe</h4>
+                                <hr class="separator">
+                                <p class="project-description">Brief description of the project goes here.</p>
+                                <div class="icon-group">
+                                    <a href="https://github.com/ochohan/tic-tac-toe" target="_blank">
+                                        <i class="fab fa-github fa-lg"></i>
+                                    </a>
+                                    <a href="https://ochohan.github.io/tic-tac-toe/" target="_blank">
+                                        <i class="fas fa-globe fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 mb-4">
+                        <div class="portfolio-item">
+                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
+                            <div class="portfolio-overlay">
+                                <h4>Hotel BT - HTML & CSS</h4>
+                                <hr class="separator">
+                                <p class="project-description">Brief description of the project goes here.</p>
+                                <div class="icon-group">
+                                    <a href="https://github.com/ochohan/HotelBT" target="_blank">
+                                        <i class="fab fa-github fa-lg"></i>
+                                    </a>
+                                    <a href="https://ochohan.github.io/HotelBT/" target="_blank">
+                                        <i class="fas fa-globe fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <div class="portfolio-item">
+                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
+                            <div class="portfolio-overlay">
+                                <h4>Project Title</h4>
+                                <hr class="separator">
+                                <p class="project-description">Brief description of the project goes here.</p>
+                                <div class="icon-group">
+                                    <a href="https://github.com/your-github-repo" target="_blank">
+                                        <i class="fab fa-github fa-lg"></i>
+                                    </a>
+                                    <a href="http://project-website-link.com" target="_blank">
+                                        <i class="fas fa-globe fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Projects to be added ... -->
+                </div>
+            </div>
+        </section>
+
+
+        <hr>
+        <!-- Contact Us Section -->
+        <section id="contact" class="mt-5 mb-5">
+            <h2 class="text-center mb-4">Contact</h2>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="contact-item">
+                            <a href="tel:(956) 217-2484">
+                                <i class="fas fa-phone-alt fa-3x text-blue"></i>
+                            </a>
+                            <p class="mt-3"><a href="tel:(956) 217-2484" class="text-gray">0426 - 117 - 866</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="contact-item">
+                            <a href="mailto:osamachohan@outlook.com">
+                                <i class="far fa-envelope fa-3x text-blue"></i>
+                            </a>
+                            <p class="mt-3"><a href="mailto:osamachohan@outlook.com"
+                                    class="text-gray">osamachohan@outlook.com</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="contact-item">
+                            <a href="http://osamachohan.net" target="_blank">
+                                <i class="fas fa-globe fa-3x text-blue"></i>
+                            </a>
+                            <p class="mt-3"><a href="http://osamachohan.net" target="_blank"
+                                    class="text-gray">osamachohan.net</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr>
+
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="footer-section mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Social Media Links -->
+                <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
+                    <a href="https://github.com/ochohan" target="_blank" class="text-gray">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/osamachohan" target="_blank" class="text-gray ml-3">
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                </div>
+                <!-- Copyright Text -->
+                <div class="col-md-6 text-center text-md-right">
+                    <p class="mb-0 text-gray">&copy; 2023 Osama Chohan. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+        let i = 0;
+        const text = 'I am a coder and DevOps engineer';
+        const speed = 100;  
+
+        function typeWriter() {
+            if (i < text.length) {
+                document.querySelector('.header-subtitle').innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', typeWriter);
+
+    </script>
+</body>
+
+</html>

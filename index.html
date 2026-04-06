@@ -1,773 +1,1091 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osama Chohan — Cloud & DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #17171f;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5b0;
+    --accent2: #6c63ff;
+    --text: #e8e8f0;
+    --muted: #6b6b85;
+    --white: #ffffff;
+  }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html { scroll-behavior: smooth; }
 
-    <!-- Font Links -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    cursor: none;
+  }
 
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,229,176,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    transform: translate(-12px,-12px);
+  }
 
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
 
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a::before {
+    content: attr(data-num);
+    color: var(--accent);
+    margin-right: 0.4em;
+    font-size: 0.65rem;
+  }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.5rem 1.2rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: var(--bg); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1px; background: var(--text); display: block; transition: all 0.3s; }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 7rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,176,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,176,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,176,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-content { max-width: 900px; position: relative; z-index: 1; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name .accent-stroke {
+    -webkit-text-stroke: 2px var(--accent);
+    color: transparent;
+  }
+  .hero-role {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--muted);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-desc {
+    max-width: 560px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,176,0.3); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-socials {
+    display: flex;
+    gap: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .hero-socials a {
+    color: var(--muted);
+    font-size: 1.2rem;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .hero-socials a:hover { color: var(--accent); transform: translateY(-3px); }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem; right: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.5s forwards;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s infinite;
+  }
 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <style>
-        .full-page-header {
-            height: 100vh;
-            background:
-                linear-gradient(to bottom, rgb(24, 24, 24), transparent),
+  /* SECTION COMMON */
+  section { padding: 6rem 3rem; position: relative; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--white);
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+  .max-w { max-width: 1100px; margin: 0 auto; }
 
+  /* ABOUT */
+  #about { background: var(--surface); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-certs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .cert-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,176,0.3);
+    padding: 0.3rem 0.8rem;
+    background: rgba(0,229,176,0.05);
+  }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-image-wrap img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(20%);
+    display: block;
+  }
+  .about-image-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border: 1px solid rgba(0,229,176,0.2);
+    z-index: -1;
+  }
+  .about-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,176,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
 
-                url('https://raw.githubusercontent.com/ochohan/portfolio/master/media/background-header-1.jpg');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
+  /* EXPERIENCE */
+  #experience { background: var(--bg); }
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .exp-item {
+    padding-left: 3rem;
+    padding-bottom: 3.5rem;
+    position: relative;
+    cursor: pointer;
+  }
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    transform: rotate(45deg);
+    transition: background 0.2s;
+  }
+  .exp-item:hover::before { background: var(--accent); }
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .exp-company {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .exp-role {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .exp-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .exp-item.open .exp-details { max-height: 800px; }
+  .exp-details ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .exp-details li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .exp-details li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.65rem;
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .exp-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .exp-toggle .arrow { transition: transform 0.3s; display: inline-block; }
+  .exp-item.open .exp-toggle .arrow { transform: rotate(90deg); }
 
+  /* SKILLS */
+  #skills { background: var(--surface); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-cell {
+    background: var(--surface);
+    padding: 1.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-cell::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+  }
+  .skill-cell:hover { background: var(--surface2); }
+  .skill-cell:hover::after { transform: scaleX(1); }
+  .skill-cell i { font-size: 2rem; }
+  .skill-cell span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
 
-        .header-subtitle {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-        }
+  /* PORTFOLIO */
+  #portfolio { background: var(--bg); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+  .project-card {
+    background: var(--surface);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover { background: var(--surface2); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--white);
+    margin-bottom: 0.7rem;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+  .project-links { display: flex; gap: 1rem; }
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+  .project-link:hover { color: var(--accent); }
+  .project-link i { font-size: 0.9rem; }
 
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            font-size: 1em;
-            cursor: pointer;
-            margin: 0 10px;
-            transition: transform 0.3s;
-        }
+  /* CONTACT */
+  #contact { background: var(--surface); }
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .contact-intro p {
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+  .contact-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .contact-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .contact-item:hover .contact-icon { background: rgba(0,229,176,0.08); border-color: var(--accent); }
+  .contact-item a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item:hover a { color: var(--accent); }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.9rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    resize: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--accent); }
+  .contact-form textarea { min-height: 130px; }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: var(--muted); }
+  .btn-submit {
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    align-self: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,176,0.3); }
 
-        .btn-primary {
-            background-color: #fff;
-            color: #2193B0;
-        }
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-socials { display: flex; gap: 1.5rem; }
+  .footer-socials a {
+    color: var(--muted);
+    font-size: 1.1rem;
+    transition: color 0.2s;
+  }
+  .footer-socials a:hover { color: var(--accent); }
 
-        .btn-secondary {
-            background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-        }
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    max-width: 620px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
+  .modal-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--white); }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }
+  .modal-close:hover { color: var(--accent); }
 
-        .btn:hover {
-            transform: translateY(-5px);
-        }
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
 
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-
-        .work-box {
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .work-box .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-dialog {
-            display: flex;
-            align-items: center;
-            min-height: calc(100% - 1rem);
-        }
-
-        .work-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 30px;
-            justify-items: center;
-            align-items: center;
-        }
-
-        .skill-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .skill-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
-            color: #3498db;
-        }
-
-
-        /* Portfolio starts */
-
-        .portfolio-item {
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-
-        .portfolio-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .portfolio-item:hover .portfolio-overlay {
-            opacity: 1;
-        }
-
-        .portfolio-overlay h4 {
-            margin-bottom: 10px;
-        }
-
-        .separator {
-            width: 50%;
-            margin: 10px 0;
-            border-color: #fff;
-        }
-
-        .project-description {
-            margin: 10px 0;
-            text-align: center;
-            max-width: 80%;
-        }
-
-        .portfolio-overlay .icon-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .portfolio-overlay a {
-            margin: 0 10px;
-            color: #fff;
-        }
-
-        .portfolio-item img {
-            max-width: 100%;
-            height: auto;
-        }
-
-
-
-        /* Portfolio ends */
-
-        .full-page-header .header-title,
-        .navbar .navbar-brand {
-            font-family: 'Barlow', sans-serif;
-            font-weight: 500;
-            font-size: 3em;
-        }
-
-        .navbar .nav-link {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-        }
-
-        .full-page-header .header-subtitle {
-            font-family: 'Barlow', sans-serif;
-            font-weight: 400;
-
-        }
-
-        .navbar .navbar-brand {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            font-size: 1.5em;
-            letter-spacing: 2px;
-            color: white;
-        }
-
-
-
-        .text-blue {
-            color: #2C3E50;
-        }
-
-
-        /* Footer starts */
-
-        .footer-section {
-            background-color: #2C3E50;
-            padding: 20px 0;
-        }
-
-        .text-gray {
-            color: #BDC3C7;
-        }
-
-        .footer-section a:hover {
-            color: #E74C3C;
-        }
-    </style>
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      z-index: 99;
+    }
+    .nav-links.open a { font-size: 1.1rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 6rem 1.5rem 3rem; }
+    .about-grid, .contact-layout { grid-template-columns: 1fr; }
+    .about-image-wrap { max-width: 320px; }
+    .hero-scroll { display: none; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
 </head>
-
 <body>
 
-    <!-- Navbar with Hamburger Menu -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(24,24,24);">
-        <a class="navbar-brand text-white" href="#">OSAMA</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item my-2">
-                    <a class="nav-link text-white" href="#about">About</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a class="nav-link text-white" href="#work">Experience</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a class="nav-link text-white" href="#skills">Skills</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a class="nav-link text-white" href="#portfolio">Portfolio</a>
-                </li>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-                <li class="nav-item my-2">
-                    <a class="nav-link text-white" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">OC<span>.</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" data-num="01">About</a></li>
+    <li><a href="#experience" data-num="02">Experience</a></li>
+    <li><a href="#skills" data-num="03">Skills</a></li>
+    <li><a href="#portfolio" data-num="04">Portfolio</a></li>
+    <li><a href="#contact" data-num="05">Contact</a></li>
+  </ul>
+  <a href="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Osama%20Chohan%20-%20Resume.doc" class="nav-cta" target="_blank">Resume</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-    <!-- Full-page Header -->
-    <header class="full-page-header">
-        <div class="header-content text-center">
-            <h1 class="header-title">Hi, this is Osama Chohan</h1>
-            <p class="header-subtitle"></p>
-            <div class="header-buttons">
-                <a href="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Osama Chohan - Resume.doc" class="btn btn-primary btn-lg">Resume</a>
-                <a href="#contact" class="btn btn-secondary btn-lg">Let's Talk</a>
-            </div>
-            <div class="header-social-icons mt-3">
-                <a href="https://www.linkedin.com/in/osamachohan" target="_blank">
-                    <i class="fab fa-linkedin fa-2x text-white mx-3"></i>
-                </a>
-                <a href="https://github.com/ochohan" target="_blank">
-                    <i class="fab fa-github fa-2x text-white mx-3"></i>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Content Sections -->
-    <div class="container mt-5">
-        <!-- About Me Section -->
-        <section id="about" class="mt-5 py-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- Text Content -->
-                    <div class="col-lg-7">
-                        <h2 class="mb-4">About Me</h2>
-                        <p>As a dedicated <strong>Cloud and DevOps Engineer</strong> 💻, my expertise spans across platforms like
-                            Microsoft Azure, GCP, and AWS. My foundation in coding is solid, thanks to hands-on projects
-                            involving Node.js, Express JS, Flask, Firebase, and SQL. Right now, I'm diving deep into the world of React 🌐. I'm also pretty handy with infrastructure tools like Docker and Terraform, and I can script my way around with both Powershell and Bash 🛠️.</p>
-                        
-                        <p>Outside the world of ones and zeros, I'm often found engrossed in the latest Marvel movie 🎬 or laughing along with my favorite sitcoms 😂. Yes, I'm a huge Marvel and sitcom enthusiast! And while many in the tech world swear by their coffee, it's just not my cup of tea ☕️ (pun intended).</p>
-                        
-                        <p>Beyond the technical realm, I've dipped my toes into <strong>Freelance Corporate Training</strong> 🎓. I've had the privilege of collaborating with top-tier institutions like Knowledge Academy UK. Over the past two years, I've facilitated more than 20 courses, primarily focusing on cloud and security 🔒.</p>
-                        
-                        <p>As for credentials, I'm a <strong>Microsoft Certified Trainer</strong>, have a <strong>Cisco Certification</strong>, and am recognized as a <strong>GCP Associate Engineer</strong>. I've also earned my stripes with Azure Fundamentals and as an MS 365 Security Administrator 🏆.</p>
-                    </div>
-                    <!-- Image -->
-                    <div class="col-lg-5 text-center">
-                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/personal-photo.jpg" alt="Your Image" class="img-fluid rounded-circle shadow">
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <hr>
-        <!-- Work Experience Section -->
-        <section id="work" class="mt-5">
-            <h2 class="text-center">Work Experience</h2>
-            <div class="row mt-4">
-                <!-- DP Computing -->
-                <div class="col-md-3 mb-4">
-                    <div class="work-box" data-toggle="modal" data-target="#dpComputingModal">
-                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/dp-computing-logo.jpg" alt="DP Computing" class="img-fluid">
-                        <div class="overlay">
-                            <h5>IT Consultant</h5>
-                            <p>June 2020 - March 2021</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARA Inc. -->
-                <div class="col-md-3 mb-4">
-                    <div class="work-box" data-toggle="modal" data-target="#caraModal">
-                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/cara-inc-logo.jpg" alt="CARA Inc." class="img-fluid">
-                        <div class="overlay">
-                            <h5>ICT Officer</h5>
-                            <p>March 2021 - Feb 2022</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Jtwo Solutions -->
-                <div class="col-md-3 mb-4">
-                    <div class="work-box" data-toggle="modal" data-target="#jtwoModal">
-                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/j2-solution-logo.jpg" alt="Jtwo Solutions" class="img-fluid">
-                        <div class="overlay">
-                            <h5>Cloud Engineer</h5>
-                            <p>Feb 2022 - Oct 2022</p>
-                        </div>
-                    </div>
-                </div>
-
-<!--                 <!-- Kasna -->
-                <div class="col-md-3 mb-4">
-                    <div class="work-box" data-toggle="modal" data-target="#kasnaModal">
-                        <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Kasna" class="img-fluid">
-                        <div class="overlay">
-                            <h5>DevOps Engineer</h5>
-                            <p>Oct 2022 - Present</p>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-        </section>
-
-        <!-- Modals for Work Experience Details -->
-
-        <!-- DP Computing Modal -->
-        <div class="modal fade" id="dpComputingModal" tabindex="-1" role="dialog" aria-labelledby="dpComputingModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="dpComputingModalLabel">DP Computing - IT Consultant</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li>Consulted clients on tech needs: Advised clients on Windows Server, Azure, Microsoft 365 (SharePoint, Exchange), and Ubiquiti Networks.</li>
-                            <li>Administered systems: Managed Windows Server setup, Azure cloud resources, and Microsoft 365 services for clients.</li>
-                            <li>Troubleshooted issues: Diagnosed and resolved technical problems across the entire tech stack.</li>
-                            <li>Network optimization: Designed and implemented Ubiquiti Networks solutions for improved connectivity.</li>
-                            <li>Seamless collaboration: Configured SharePoint and Exchange for efficient communication and document management.</li>
-                            <li>Training and support: Provided client teams with guidance, enabling them to maintain and manage the tech stack effectively.</li>
-                        </ul>
-                        <h6>Skills:</h6>
-                        <div class="mt-2">
-                            <span class="badge badge-primary">Azure</span>
-                            <span class="badge badge-secondary">Microsoft 365</span>
-                            <span class="badge badge-success">Azure AD</span>
-                            <span class="badge badge-danger">PowerShell</span>
-                            <span class="badge badge-warning">Ubiquiti</span>
-                            <span class="badge badge-info">Networking</span>
-                            <span class="badge badge-dark">Security</span>
-                            <span class="badge badge-primary">Exchange</span>
-                            <span class="badge badge-secondary">SharePoint</span>
-                            <span class="badge badge-success">Windows Server</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <!-- CARA Inc. Modal -->
-        <div class="modal fade" id="caraModal" tabindex="-1" role="dialog" aria-labelledby="caraModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="caraModalLabel">CARA Inc. - ICT Officer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h6>Role & Responsibilities</h6>
-                        <ul>
-                            <li>Carrying out existing strategies for data backup, data security, virus prevention.</li>
-                            <li>Collaborating in regular review of the cloud (Azure) environment to ensure it meets current best practices and emerging business needs management.</li>
-                            <li>Administering the entire infrastructure of an enterprise including networking & security.</li>
-                            <li>Ensured that all server hardware, operating systems, software and procedures aligned with organizational standards and strategic business plan.</li>
-                        </ul>
-                        <h6>Skills:</h6>
-                        <div class="mt-2">
-                            <span class="badge badge-primary">Windows Server</span>
-                            <span class="badge badge-secondary">Microsoft 365</span>
-                            <span class="badge badge-success">SharePoint</span>
-                            <span class="badge badge-danger">Exchange</span>
-                            <span class="badge badge-warning">Cisco Meraki</span>
-                            <span class="badge badge-info">Meraki MDM</span>
-                            <span class="badge badge-dark">Avast Business</span>
-                            <span class="badge badge-primary">Azure</span>
-                            <span class="badge badge-secondary">PowerShell</span>
-                            <span class="badge badge-success">Vmware Esxi</span>
-                            <span class="badge badge-danger">Cisco VOIP</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-       <!-- Jtwo Solutions Modal -->
-       <div class="modal fade" id="jtwoModal" tabindex="-1" role="dialog" aria-labelledby="jtwoModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="jtwoModalLabel">Cloud Engineer - Jtwo Solutions Pty Ltd</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>Implementing automated lifecycle management rules on cloud resources resulting in 20% cost reduction.</li>
-                        <li>Orchestrated seamless on-premise to AWS migration.</li>
-                        <li>Managed VMs, SQL Servers, Azure Blob Storage across clouds.</li>
-                        <li>Created efficient PowerShell scripts for infrastructure management.</li>
-                        <li>Optimized Azure and AWS resource scaling based on demand.</li>
-                        <li>Empowered clients through effective knowledge transfer.</li>
-                        <li>Enhanced K8s clusters and CI/CD pipelines for reliability.</li>
-                        <li>Deployed consistent environments using Terraform.</li>
-                        <li>Ensured high availability of AWS and Azure services.</li>
-                        <li>Streamlined SCCM software deployment and systems.</li>
-                        <li>Ensured efficient Exchange, Azure AD, and Windows Server management.</li>
-                    </ul>
-                    <div class="mt-4">
-                        <span class="badge badge-primary">Scripting</span>
-                        <span class="badge badge-secondary">DevOps</span>
-                        <span class="badge badge-success">Amazon Web Services (AWS)</span>
-                        <span class="badge badge-danger">Python (Programming Language)</span>
-                        <span class="badge badge-warning">Microsoft Azure</span>
-                        <span class="badge badge-info">Windows Server</span>
-                        <span class="badge badge-dark">Linux</span>
-                        <span class="badge badge-secondary">SCCM</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Available for opportunities</div>
+    <h1 class="hero-name">
+      Osama<br>
+      <span class="accent-stroke">Chohan</span>
+    </h1>
+    <div class="hero-role">Cloud &amp; DevOps Engineer</div>
+    <p class="hero-desc">
+      Building resilient cloud infrastructure across Azure, GCP &amp; AWS. Passionate about automation, CI/CD pipelines, and turning complex systems into elegant, scalable solutions.
+    </p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
     </div>
-    
-    
+    <div class="hero-socials" style="margin-top:2rem;">
+      <a href="https://www.linkedin.com/in/osamachohan" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/ochohan" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="mailto:osamachohan@outlook.com" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
 
-        
-
-        <!-- Kasna Modal -->
-        <div class="modal fade" id="kasnaModal" tabindex="-1" role="dialog" aria-labelledby="kasnaModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="kasnaModalLabel">Kasna - Cloud Engineer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <strong>Project - AusPost Data Migration - Nov 2022 - July 2023</strong>
-                        <ul>
-                            <li>As a Cloud Engineer, I facilitated data migration from a legacy system to the current one, deploying containerized workloads on Cloud Run.</li>
-                            <li>I ensured GCP Infrastructure deployment followed best practices, leveraging Terraform for efficient management.</li>
-                            <li>Implemented automated CI/CD pipelines utilizing Cloud Build and Cloud Source Repository for various environments (development, test, production).</li>
-                            <li>Utilized the dbt tool to transform core data into the required format for new cloud-based applications.</li>
-                        </ul>
-                        <strong>Project - Rclone Config Generator - Aug 2023 - Present</strong>
-                        <ul>
-                            <li>Developed an Express.js web server with integrated Google OAuth 2.0 for user authentication.</li>
-                            <li>Managed user sessions using express-session stored in Firestore.</li>
-                            <li>Enabled dynamic Google Drive creation via Google APIs with custom naming.</li>
-                            <li>Used Firebase Admin SDK for backend operations and Firestore integration.</li>
-                            <li>Served static content with Express.js and managed environment configurations.</li>
-                            <li>Implemented error handling, logging, and a secure logout route.</li>
-                        </ul>
-                        <h6>Skills:</h6>
-                        <div class="mt-2">
-                            <span class="badge badge-primary">GCP</span>
-                            <span class="badge badge-secondary">Docker</span>
-                            <span class="badge badge-success">Cloud Run</span>
-                            <span class="badge badge-danger">Terraform</span>
-                            <span class="badge badge-warning">Firebase</span>
-                            <span class="badge badge-info">Google APIs</span>
-                            <span class="badge badge-dark">Firestore</span>
-                            <span class="badge badge-primary">OAuth</span>
-                            <span class="badge badge-secondary">Cloud Build</span>
-                            <span class="badge badge-success">DevOps</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="max-w">
+    <div class="section-label reveal">About</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2 class="section-title">Building the infrastructure behind modern software.</h2>
+        <p>As a dedicated <strong>Cloud &amp; DevOps Engineer</strong>, my expertise spans Microsoft Azure, GCP, and AWS. My development foundation includes Node.js, Express.js, Flask, Firebase, and SQL — and I'm currently diving deep into React.</p>
+        <p>I'm fluent with infrastructure tools like <strong>Docker, Kubernetes, and Terraform</strong>, and can script across PowerShell and Bash. I bridge the gap between development and operations to ship reliable, scalable systems.</p>
+        <p>Beyond the technical, I've facilitated <strong>20+ corporate training courses</strong> — primarily on cloud and security — collaborating with institutions like Knowledge Academy UK.</p>
+        <p>When I'm not in the terminal, you'll find me deep in a Marvel movie or rewatching my favourite sitcoms ☕ (coffee? not my thing).</p>
+        <div class="about-certs">
+          <span class="cert-tag">Microsoft Certified Trainer</span>
+          <span class="cert-tag">Cisco Certification</span>
+          <span class="cert-tag">GCP Associate Engineer</span>
+          <span class="cert-tag">Azure Fundamentals</span>
+          <span class="cert-tag">MS 365 Security Admin</span>
         </div>
-        
-        <hr>
+      </div>
+      <div class="about-image-wrap reveal">
+        <img src="https://api.dicebear.com/9.x/notionists/svg?seed=Osama&backgroundColor=111118&size=400" alt="Osama Chohan">
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="mt-5">
-            <h2 class="text-center mb-4">Skills</h2>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="max-w">
+    <div class="section-label reveal">Experience</div>
+    <h2 class="section-title reveal">Where I've worked.</h2>
+    <div class="timeline reveal">
 
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fas fa-code skill-icon"></i>
-                    <label>Python</label>
-                </div>
+      <div class="exp-item" onclick="toggleExp(this)">
+        <div class="exp-period">Oct 2022 — Present</div>
+        <div class="exp-company">Kasna</div>
+        <div class="exp-role">DevOps / Cloud Engineer</div>
+        <div class="exp-toggle"><span class="arrow">▸</span> See details</div>
+        <div class="exp-details">
+          <ul>
+            <li>Facilitated data migration from legacy systems to cloud, deploying containerized workloads on Cloud Run for AusPost.</li>
+            <li>Ensured GCP Infrastructure followed best practices using Terraform for efficient management.</li>
+            <li>Implemented automated CI/CD pipelines with Cloud Build and Cloud Source Repository across dev/test/prod environments.</li>
+            <li>Utilized dbt to transform core data into the format required for cloud-based applications.</li>
+            <li>Developed an Express.js web server with Google OAuth 2.0, managing sessions via Firestore.</li>
+            <li>Enabled dynamic Google Drive creation via Google APIs; used Firebase Admin SDK for backend operations.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">GCP</span><span class="tag">Cloud Run</span><span class="tag">Terraform</span>
+            <span class="tag">Firebase</span><span class="tag">Cloud Build</span><span class="tag">Docker</span>
+            <span class="tag">dbt</span><span class="tag">Node.js</span><span class="tag">OAuth</span>
+          </div>
+        </div>
+      </div>
 
-                <div class="skill-card">
-                    <i class="fas fa-flask skill-icon"></i>
-                    <label>Flask</label>
-                </div>
+      <div class="exp-item" onclick="toggleExp(this)">
+        <div class="exp-period">Feb 2022 — Oct 2022</div>
+        <div class="exp-company">Jtwo Solutions</div>
+        <div class="exp-role">Cloud Engineer</div>
+        <div class="exp-toggle"><span class="arrow">▸</span> See details</div>
+        <div class="exp-details">
+          <ul>
+            <li>Implemented automated lifecycle management rules on cloud resources resulting in 20% cost reduction.</li>
+            <li>Orchestrated seamless on-premise to AWS migration for enterprise clients.</li>
+            <li>Managed VMs, SQL Servers, and Azure Blob Storage across multi-cloud environments.</li>
+            <li>Created efficient PowerShell scripts for infrastructure management and automation.</li>
+            <li>Enhanced Kubernetes clusters and CI/CD pipelines for improved reliability.</li>
+            <li>Deployed consistent environments using Terraform; streamlined SCCM software deployment.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Kubernetes</span>
+            <span class="tag">Terraform</span><span class="tag">PowerShell</span><span class="tag">Python</span>
+            <span class="tag">SCCM</span><span class="tag">Linux</span>
+          </div>
+        </div>
+      </div>
 
-                <div class="skill-card">
-                    <i class="fab fa-node skill-icon"></i>
-                    <label>Node JS</label>
-                </div>
+      <div class="exp-item" onclick="toggleExp(this)">
+        <div class="exp-period">March 2021 — Feb 2022</div>
+        <div class="exp-company">CARA Inc.</div>
+        <div class="exp-role">ICT Officer</div>
+        <div class="exp-toggle"><span class="arrow">▸</span> See details</div>
+        <div class="exp-details">
+          <ul>
+            <li>Implemented and maintained data backup, security, and virus prevention strategies.</li>
+            <li>Collaborated on regular Azure environment reviews to align with best practices and business needs.</li>
+            <li>Administered full enterprise infrastructure including networking and security.</li>
+            <li>Ensured all server hardware, OS, software, and procedures aligned with organisational standards.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">Azure</span><span class="tag">Windows Server</span><span class="tag">Microsoft 365</span>
+            <span class="tag">Cisco Meraki</span><span class="tag">VMware ESXi</span><span class="tag">Exchange</span>
+            <span class="tag">PowerShell</span>
+          </div>
+        </div>
+      </div>
 
-                <div class="skill-card">
-                    <i class="fab fa-node-js skill-icon"></i>
-                    <label>Express JS</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-database skill-icon"></i>
-                    <label>SQL</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fab fa-react skill-icon"></i>
-                    <label>React</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fab fa-docker skill-icon"></i>
-                    <label>Docker</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-cubes skill-icon"></i>
-                    <label>Kubernetes</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-cloud skill-icon"></i>
-                    <label>GCP</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-cloud skill-icon"></i>
-                    <label>AWS</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-cloud skill-icon"></i>
-                    <label>Azure</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-code-branch skill-icon"></i>
-                    <label>Terraform</label>
-                </div>
-
-                <div class="skill-card">
-                    <i class="fas fa-server skill-icon"></i>
-                    <label>VMware</label>
-                </div>
-            </div>
-        </section>
-        <hr>
-
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="mt-5 mb-5">
-            <h2 class="text-center mb-4">Portfolio</h2>
-
-            <div class="container">
-                <div class="row">
-                    <!-- Test Project Box-->
-                    <div class="col-md-4 mb-4">
-                        <div class="portfolio-item">
-                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
-                            <div class="portfolio-overlay">
-                                <h4>Tic-Tac-Toe</h4>
-                                <hr class="separator">
-                                <p class="project-description">Brief description of the project goes here.</p>
-                                <div class="icon-group">
-                                    <a href="https://github.com/ochohan/tic-tac-toe" target="_blank">
-                                        <i class="fab fa-github fa-lg"></i>
-                                    </a>
-                                    <a href="https://ochohan.github.io/tic-tac-toe/" target="_blank">
-                                        <i class="fas fa-globe fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4 mb-4">
-                        <div class="portfolio-item">
-                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
-                            <div class="portfolio-overlay">
-                                <h4>Hotel BT - HTML & CSS</h4>
-                                <hr class="separator">
-                                <p class="project-description">Brief description of the project goes here.</p>
-                                <div class="icon-group">
-                                    <a href="https://github.com/ochohan/HotelBT" target="_blank">
-                                        <i class="fab fa-github fa-lg"></i>
-                                    </a>
-                                    <a href="https://ochohan.github.io/HotelBT/" target="_blank">
-                                        <i class="fas fa-globe fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="portfolio-item">
-                            <img src="https://raw.githubusercontent.com/ochohan/portfolio/master/media/Kasna-logo.jpg" alt="Project Screenshot" class="img-fluid">
-                            <div class="portfolio-overlay">
-                                <h4>Project Title</h4>
-                                <hr class="separator">
-                                <p class="project-description">Brief description of the project goes here.</p>
-                                <div class="icon-group">
-                                    <a href="https://github.com/your-github-repo" target="_blank">
-                                        <i class="fab fa-github fa-lg"></i>
-                                    </a>
-                                    <a href="http://project-website-link.com" target="_blank">
-                                        <i class="fas fa-globe fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Projects to be added ... -->
-                </div>
-            </div>
-        </section>
-
-
-        <hr>
-        <!-- Contact Us Section -->
-        <section id="contact" class="mt-5 mb-5">
-            <h2 class="text-center mb-4">Contact</h2>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="contact-item">
-                            <a href="tel:(956) 217-2484">
-                                <i class="fas fa-phone-alt fa-3x text-blue"></i>
-                            </a>
-                            <p class="mt-3"><a href="tel:(956) 217-2484" class="text-gray">0426 - 117 - 866</a></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="contact-item">
-                            <a href="mailto:osamachohan@outlook.com">
-                                <i class="far fa-envelope fa-3x text-blue"></i>
-                            </a>
-                            <p class="mt-3"><a href="mailto:osamachohan@outlook.com"
-                                    class="text-gray">osamachohan@outlook.com</a></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="contact-item">
-                            <a href="http://osamachohan.net" target="_blank">
-                                <i class="fas fa-globe fa-3x text-blue"></i>
-                            </a>
-                            <p class="mt-3"><a href="http://osamachohan.net" target="_blank"
-                                    class="text-gray">osamachohan.net</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <hr>
+      <div class="exp-item" onclick="toggleExp(this)">
+        <div class="exp-period">June 2020 — March 2021</div>
+        <div class="exp-company">DP Computing</div>
+        <div class="exp-role">IT Consultant</div>
+        <div class="exp-toggle"><span class="arrow">▸</span> See details</div>
+        <div class="exp-details">
+          <ul>
+            <li>Advised clients on Windows Server, Azure, Microsoft 365, and Ubiquiti Networks solutions.</li>
+            <li>Managed Azure cloud resources and Microsoft 365 services including SharePoint and Exchange.</li>
+            <li>Diagnosed and resolved technical problems across the full technology stack.</li>
+            <li>Provided client teams with guidance to independently maintain their tech infrastructure.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">Azure</span><span class="tag">Microsoft 365</span><span class="tag">Azure AD</span>
+            <span class="tag">PowerShell</span><span class="tag">Ubiquiti</span><span class="tag">Exchange</span>
+            <span class="tag">SharePoint</span>
+          </div>
+        </div>
+      </div>
 
     </div>
+  </div>
+</section>
 
+<!-- SKILLS -->
+<section id="skills">
+  <div class="max-w">
+    <div class="section-label reveal">Skills</div>
+    <h2 class="section-title reveal">Tools of the trade.</h2>
+    <div class="skills-grid reveal">
+      <div class="skill-cell"><i class="devicon-python-plain colored"></i><span>Python</span></div>
+      <div class="skill-cell"><i class="devicon-nodejs-plain colored"></i><span>Node.js</span></div>
+      <div class="skill-cell"><i class="devicon-react-original colored"></i><span>React</span></div>
+      <div class="skill-cell"><i class="devicon-postgresql-plain colored"></i><span>SQL</span></div>
+      <div class="skill-cell"><i class="devicon-docker-plain colored"></i><span>Docker</span></div>
+      <div class="skill-cell"><i class="devicon-kubernetes-plain colored"></i><span>Kubernetes</span></div>
+      <div class="skill-cell"><i class="devicon-googlecloud-plain colored"></i><span>GCP</span></div>
+      <div class="skill-cell"><i class="devicon-amazonwebservices-plain-wordmark colored"></i><span>AWS</span></div>
+      <div class="skill-cell"><i class="devicon-azure-plain colored"></i><span>Azure</span></div>
+      <div class="skill-cell"><i class="devicon-terraform-plain colored"></i><span>Terraform</span></div>
+      <div class="skill-cell"><i class="devicon-bash-plain colored"></i><span>Bash</span></div>
+      <div class="skill-cell"><i class="devicon-powershell-plain colored"></i><span>PowerShell</span></div>
+      <div class="skill-cell"><i class="devicon-vmware-plain colored"></i><span>VMware</span></div>
+      <div class="skill-cell"><i class="devicon-git-plain colored"></i><span>Git / CI/CD</span></div>
+      <div class="skill-cell"><i class="devicon-firebase-plain colored"></i><span>Firebase</span></div>
+      <div class="skill-cell"><i class="devicon-flask-original colored"></i><span>Flask</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer Section -->
-    <footer class="footer-section mt-5">
-        <div class="container">
-            <div class="row">
-                <!-- Social Media Links -->
-                <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
-                    <a href="https://github.com/ochohan" target="_blank" class="text-gray">
-                        <i class="fab fa-github fa-2x"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/osamachohan" target="_blank" class="text-gray ml-3">
-                        <i class="fab fa-linkedin fa-2x"></i>
-                    </a>
-                </div>
-                <!-- Copyright Text -->
-                <div class="col-md-6 text-center text-md-right">
-                    <p class="mb-0 text-gray">&copy; 2023 Osama Chohan. All rights reserved.</p>
-                </div>
-            </div>
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="max-w">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="section-title reveal">Things I've built.</h2>
+    <div class="projects-grid reveal">
+
+      <div class="project-card">
+        <div class="project-num">001</div>
+        <div class="project-title">Tic-Tac-Toe</div>
+        <div class="project-desc">A classic game built with vanilla JavaScript, featuring interactive gameplay, win detection, and a clean UI — a foundation exercise in front-end logic.</div>
+        <div class="project-links">
+          <a href="https://github.com/ochohan/tic-tac-toe" target="_blank" class="project-link"><i class="fab fa-github"></i> Source</a>
+          <a href="https://ochohan.github.io/tic-tac-toe/" target="_blank" class="project-link"><i class="fas fa-arrow-up-right-from-square"></i> Live</a>
         </div>
-    </footer>
+      </div>
 
+      <div class="project-card">
+        <div class="project-num">002</div>
+        <div class="project-title">Hotel BT</div>
+        <div class="project-desc">A responsive hotel landing page built with pure HTML &amp; CSS. Demonstrates solid layout fundamentals, visual hierarchy, and clean styling without any frameworks.</div>
+        <div class="project-links">
+          <a href="https://github.com/ochohan/HotelBT" target="_blank" class="project-link"><i class="fab fa-github"></i> Source</a>
+          <a href="https://ochohan.github.io/HotelBT/" target="_blank" class="project-link"><i class="fas fa-arrow-up-right-from-square"></i> Live</a>
+        </div>
+      </div>
 
+      <div class="project-card" style="border: 1px dashed rgba(255,255,255,0.07); background: transparent;">
+        <div class="project-num" style="opacity:0.3">More</div>
+        <div class="project-title" style="color:var(--muted)">Coming Soon</div>
+        <div class="project-desc">More projects are on the way. Check back soon or explore my GitHub for the latest work.</div>
+        <div class="project-links">
+          <a href="https://github.com/ochohan" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub Profile</a>
+        </div>
+      </div>
 
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
+  </div>
+</section>
 
+<!-- CONTACT -->
+<section id="contact">
+  <div class="max-w">
+    <div class="section-label reveal">Contact</div>
+    <div class="contact-layout">
+      <div class="contact-intro reveal">
+        <h2 class="section-title">Let's work together.</h2>
+        <p>Whether you have a project in mind, a role to fill, or just want to say hello — my inbox is always open. I'll do my best to get back to you promptly.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <a href="tel:0426117866">0426 117 866</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <a href="mailto:osamachohan@outlook.com">osamachohan@outlook.com</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-globe"></i></div>
+            <a href="http://osamachohan.net" target="_blank">osamachohan.net</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+            <a href="https://www.linkedin.com/in/osamachohan" target="_blank">linkedin.com/in/osamachohan</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <input type="text" placeholder="Your name">
+        <input type="email" placeholder="Your email">
+        <input type="text" placeholder="Subject">
+        <textarea placeholder="Your message"></textarea>
+        <button class="btn-submit" onclick="handleContact(event)">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        let i = 0;
-        const text = 'I am a coder and DevOps engineer';
-        const speed = 100;  
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Osama Chohan — All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="https://github.com/ochohan" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/osamachohan" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <a href="mailto:osamachohan@outlook.com"><i class="fas fa-envelope"></i></a>
+  </div>
+</footer>
 
-        function typeWriter() {
-            if (i < text.length) {
-                document.querySelector('.header-subtitle').innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
-            }
-        }
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
 
-        document.addEventListener('DOMContentLoaded', typeWriter);
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX - 6 + 'px';
+    cursor.style.top = mouseY - 6 + 'px';
+  });
 
-    </script>
+  function animateRing() {
+    ringX += (mouseX - ringX - 18) * 0.12;
+    ringY += (mouseY - ringY - 18) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .exp-item, .skill-cell').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(2)';
+      cursorRing.style.transform = 'translate(-12px,-12px) scale(1.4)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'scale(1)';
+      cursorRing.style.transform = 'translate(-12px,-12px) scale(1)';
+    });
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Experience toggle
+  function toggleExp(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.exp-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Contact form
+  function handleContact(e) {
+    const btn = e.target;
+    btn.textContent = 'Sent ✓';
+    btn.style.background = '#444';
+    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000);
+  }
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navAs = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navAs.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
 </body>
-
 </html>
